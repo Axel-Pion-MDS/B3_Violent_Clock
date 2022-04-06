@@ -3,11 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/quent/AndroidStudioProjects/violentclock/app/src/main/res/layout/activity_main.xml" value="0.264" />
-        <entry key="..\:/Users/quent/AndroidStudioProjects/violentclock/app/src/main/res/layout/activity_main2.xml" value="0.17119565217391305" />
+        <entry key="../violentclock/app/src/main/res/layout/activity_main.xml" value="0.325" />
+        <entry key="../violentclock/app/src/main/res/layout/listview_item.xml" value="0.325" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.38207651774088536" />
+        <entry key="app/src/main/res/layout/listview_item.xml" value="0.325" />
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
