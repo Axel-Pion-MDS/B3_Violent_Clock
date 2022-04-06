@@ -12,8 +12,8 @@ import com.raq.violentclock.data.AlarmData
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 
-class AlarmAdaptater (private val context: Activity, private val alarms: List<AlarmData>, private val name: List<String>)
-    : ArrayAdapter<String>(context, R.layout.listview_item, name) {
+class AlarmAdaptater (private val context: Activity, private val alarms: List<AlarmData>, private val listOfAlarmsName: List<String>)
+    : ArrayAdapter<String>(context, R.layout.listview_item, listOfAlarmsName) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {

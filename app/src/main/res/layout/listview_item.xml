@@ -3,28 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_black"
     android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:elevation="5dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:focusable="true">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/alarmHour"
-                android:layout_width="match_parent"
+                android:layout_width="335dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
-                android:text="title"
+                android:layout_marginTop="10dp"
+                android:text="10:00"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/grey"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -33,9 +39,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
-                android:text="description"
+                android:layout_marginBottom="13dp"
+                android:text="Alarme name"
+                android:textColor="@color/grey"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -44,11 +51,12 @@
             android:layout_height="fill_parent"
             android:gravity="center">
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/alarmStatus"
-                android:layout_width="63dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginEnd="15dp"
+                android:minHeight="48dp"
                 android:text="" />
         </RelativeLayout>
     </LinearLayout>

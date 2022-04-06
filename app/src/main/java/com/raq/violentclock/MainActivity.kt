@@ -5,10 +5,13 @@ package com.raq.violentclock
 //val intent = Intent(this, PlayerActivity::class.java)
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.raq.violentclock.adaptater.AlarmAdaptater
 import com.raq.violentclock.data.AlarmData
 import com.raq.violentclock.data.Days
@@ -32,18 +35,9 @@ class MainActivity : AppCompatActivity() {
         var alarm0 : AlarmData = AlarmData(name = "Réveil 0", hour = Date(), days =  onDays, musique = "test")
         var alarm1 : AlarmData = alarm0.copy(name = "Réveil 1")
         var alarm2 : AlarmData = alarm1.copy(name = "Réveil 2")
-        val listOfAlarms = listOf(alarm0, alarm1, alarm2)
-        val listOfName = listOf("test")
-
-        val myListAdapter = AlarmAdaptater(this, listOfAlarms, listOfName)
-        val listView : ListView = findViewById<ListView>(R.id.alarmsList)
-        listView.adapter = myListAdapter
-
-        listView.setOnItemClickListener() { adapterView, view, position, id ->
-            val itemAtPos = adapterView.getItemAtPosition(position)
-            val itemIdAtPos = adapterView.getItemIdAtPosition(position)
-            Toast.makeText(this, "Click on item at $itemAtPos its item id $itemIdAtPos", Toast.LENGTH_LONG).show()
-        }
+        val listOfAlarms = listOf<AlarmData>(alarm0, alarm1, alarm2)
+        AlarmService(this, listOfAlarms)
+        registerGlobalEvent()
     }
 
     override fun onStart() {
@@ -54,6 +48,13 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         spotifyAppRemote?.let {
             SpotifyAppRemote.disconnect(it)
+        }
+    }
+
+    fun registerGlobalEvent () {
+        var btnAlarm : FloatingActionButton = findViewById<FloatingActionButton>(R.id.addAlarm)
+        btnAlarm.setOnClickListener {
+            Log.d("MainActivityDebug", "Click!")
         }
     }
 }
