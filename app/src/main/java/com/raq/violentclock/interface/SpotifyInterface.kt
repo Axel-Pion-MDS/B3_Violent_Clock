@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 
-private const val TOKEN = "BQCNgfL0HjEnmf2S0kKrUpkfX_Usj1brlJV8R_54RNmHguw2T_CYWCYY4AEJCyKMxUoJ3JrCC9EfOf8ET39iQv5Br_fgWzAJkl3IdmDj5qGWJxWwI4xgZ6A6d_daowR38nyIJ_jvswC8fOo"
+private const val TOKEN = "Bearer BQCBf3_vv8x7vJeHgUu7kzNQRZ0OSQSA75wuVSsH04OqWP75IA6oJYE55jhUuDrDEVU_CdY70ve0zzE8nATEs_y1vD0uAxEOW8UiXGu8b5DVF8W6-tZXVAJM_4jn2yEW1FGdODxktQHXhvw"
 private const val SEARCH_TYPE = "track"
 
 interface SpotifyInterface {

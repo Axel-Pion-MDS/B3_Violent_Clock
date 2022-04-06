@@ -1,6 +1,5 @@
 package com.raq.violentclock.data
 
-import java.util.*
 import kotlin.collections.ArrayList
 
 data class Tracks(
@@ -8,11 +7,11 @@ data class Tracks(
 )
 
 data class Items(
-    val items: ArrayList<Any>
+    val items: ArrayList<Album>
 )
 
 data class Album(
-    val album: ArrayList<SpotifyData>
+    val album: SpotifyData
 )
 
 data class Artists(
