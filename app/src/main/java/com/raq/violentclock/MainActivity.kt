@@ -1,7 +1,9 @@
 package com.raq.violentclock
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+// For navigate
+//import android.content.Intent
+//val intent = Intent(this, PlayerActivity::class.java)
+
 import android.os.Bundle
 import android.util.Log
 import com.raq.violentclock.`interface`.SpotifyInterface
@@ -9,7 +11,6 @@ import com.raq.violentclock.data.Items
 import com.raq.violentclock.data.SpotifyData
 import com.raq.violentclock.data.Tracks
 import com.raq.violentclock.service.SpotifyService
-
 import com.spotify.android.appremote.api.SpotifyAppRemote
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,6 +64,13 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("MainActivityError", e.message.toString())
         }
+        val onDays = listOf(Days.MONDAY)
+        var alarm0 : AlarmData = AlarmData(name = "Réveil 0", hour = Date(), days =  onDays, musique = "test")
+        var alarm1 : AlarmData = alarm0.copy(name = "Réveil 1")
+        var alarm2 : AlarmData = alarm1.copy(name = "Réveil 2")
+        val listOfAlarms = listOf<AlarmData>(alarm0, alarm1, alarm2)
+        AlarmService(this, listOfAlarms)
+        registerGlobalEvent()
     }
 
     override fun onStart() {
@@ -73,6 +81,13 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         spotifyAppRemote?.let {
             SpotifyAppRemote.disconnect(it)
+        }
+    }
+
+    fun registerGlobalEvent () {
+        var btnAlarm : FloatingActionButton = findViewById<FloatingActionButton>(R.id.addAlarm)
+        btnAlarm.setOnClickListener {
+            Log.d("MainActivityDebug", "Click!")
         }
     }
 }

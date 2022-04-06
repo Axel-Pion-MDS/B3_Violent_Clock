@@ -2,10 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="grey">#EFE6DDFF</color>
-    <color name="light_black">#231F20FF</color>
-    <color name="main">#231F20FF</color>
-    <color name="main_variant">#06BCC1FF</color>
-    <color name="secondary">#A14A76FF</color>
-    <color name="secondary_variant">#BF7399FF</color>
+    <color name="grey">#FFEFE6DD</color>
+    <color name="light_black">#FF231F20</color>
+    <color name="main">#FF005C69</color>
+    <color name="main_variant">#FF06BCC1</color>
+    <color name="secondary">#FFA14A76</color>
+    <color name="secondary_variant">#FFBF7399</color>
 </resources>
