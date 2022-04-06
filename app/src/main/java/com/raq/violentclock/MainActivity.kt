@@ -1,14 +1,11 @@
 package com.raq.violentclock
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import com.raq.violentclock.service.SpotifyService
 
-import com.spotify.android.appremote.api.ConnectionParams;
-import com.spotify.android.appremote.api.Connector;
-import com.spotify.android.appremote.api.SpotifyAppRemote;
-
-import com.spotify.protocol.types.Track;
+import com.spotify.android.appremote.api.SpotifyAppRemote
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,46 +17,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        SpotifyService.connect(this) {
+            val intent = Intent(this, this::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        val connectionParams = ConnectionParams.Builder(clientId)
-            .setRedirectUri(redirectUri)
-            .showAuthView(true)
-            .build()
-        SpotifyAppRemote.connect(this, connectionParams, object : Connector.ConnectionListener {
-            override fun onConnected(appRemote: SpotifyAppRemote) {
-                spotifyAppRemote = appRemote
-                Log.d("MainActivityDebug", "Connected! Yay!")
-                // Now you can start interacting with App Remote
-                connected()
-            }
-
-            override fun onFailure(throwable: Throwable) {
-                Log.e("MainActivityDebug", throwable.message, throwable)
-                // Something went wrong when attempting to connect! Handle errors here
-            }
-        })
-    }
-
-    private fun connected() {
-        spotifyAppRemote?.let {
-            // Play a playlist
-            val playlistURI = "spotify:playlist:37i9dQZF1DX2sUQwD7tbmL"
-            it.playerApi.play(playlistURI)
-            // Subscribe to PlayerState
-            it.playerApi.subscribeToPlayerState().setEventCallback {
-                val track: Track = it.track
-                Log.d("MainActivity", track.name + " by " + track.artist.name)
-            }
-        }
     }
 
     override fun onStop() {
         super.onStop()
-        spotifyAppRemote?.let {
-            SpotifyAppRemote.disconnect(it)
-        }
+//        spotifyAppRemote?.let {
+//            SpotifyAppRemote.disconnect(it)
+//        }
     }
 }
