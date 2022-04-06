@@ -1,6 +1,5 @@
 package com.raq.violentclock
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -89,9 +88,8 @@ class MainActivity : AppCompatActivity() {
         var btnAlarm : FloatingActionButton = findViewById<FloatingActionButton>(R.id.addAlarm)
         btnAlarm.setOnClickListener {
             Log.d("MainActivityDebug", "Click!")
-            val intent : Intent = Intent(this, MainActivity2::class.java)
+            val intent : Intent = Intent(this, AddAlarmActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
     }
 }

@@ -1,128 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity2">
+    android:background="#DCDCDC"
+    tools:context=".AddAlarmActivity">
 
-    <TextView
-        android:id="@+id/createalarm_scheduleAlarmHeading"
-        android:layout_width="0dp"
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Violent Alarm"
-        android:textAlignment="center"
+        android:layout_weight="0.6"
+        android:amPmTextColor="@color/grey"
+        android:background="#DCDCDC"
+        android:backgroundTintMode="screen"
+        android:headerBackground="@color/secondary"
+        android:numbersTextColor="@color/light_black"
+        android:timePickerMode="clock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/createalarm_timePickerLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:id="@+id/layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/layout_bg"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createalarm_scheduleAlarmHeading">
+        app:layout_constraintTop_toBottomOf="@+id/timePicker">
+
+        <EditText
+            android:id="@+id/createalarm_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:autofillHints=""
+            android:backgroundTint="@color/grey"
+            android:hint="Mon réveil"
+            android:inputType="text"
+            android:minHeight="50dp"
+            android:textAlignment="center"
+            android:textColor="@color/grey"
+            android:textColorHint="@color/hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timePicker" />
+
+        <CheckBox
+            android:id="@+id/createalarm_recurring"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:checked="false"
+            android:text="Répéter"
+            android:textColor="@color/grey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/createalarm_title" />
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.4"
-            android:text="Alarm Time"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="5dp"
+            android:text="Récurrence"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:textColor="@color/grey" />
 
-        <TimePicker
-            android:id="@+id/createalarm_timePicker"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/createalarm_recurring_options"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/createalarm_recurring">
+
+            <CheckBox
+                android:id="@+id/createalarm_checkMon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mon"
+                android:textColor="@color/grey" />
+
+            <CheckBox
+                android:id="@+id/createalarm_checkTue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tue"
+                android:textColor="@color/grey" />
+
+            <CheckBox
+                android:id="@+id/createalarm_checkWed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wed"
+                android:textColor="@color/grey" />
+
+            <CheckBox
+                android:id="@+id/createalarm_checkThu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thu"
+                android:textColor="@color/grey" />
+
+            <CheckBox
+                android:id="@+id/createalarm_checkFri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fri"
+                android:textColor="@color/grey" />
+
+            <CheckBox
+                android:id="@+id/createalarm_checkSat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sat"
+                android:textColor="@color/grey" />
+
+            <CheckBox
+                android:id="@+id/createalarm_checkSun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sun"
+                android:textColor="@color/grey" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editTextTextPersonName2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:timePickerMode="spinner" />
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/createalarm_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:hint="Alarm Title"
-        android:inputType="text"
-        android:minHeight="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createalarm_timePickerLayout" />
-
-    <CheckBox
-        android:id="@+id/createalarm_recurring"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="Recurring Alarm"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createalarm_title" />
-
-    <LinearLayout
-        android:id="@+id/createalarm_recurring_options"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createalarm_recurring">
-
-        <CheckBox
-            android:id="@+id/createalarm_checkMon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mon" />
-
-        <CheckBox
-            android:id="@+id/createalarm_checkTue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tue" />
-
-        <CheckBox
-            android:id="@+id/createalarm_checkWed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wed" />
-
-        <CheckBox
-            android:id="@+id/createalarm_checkThu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thu" />
-
-        <CheckBox
-            android:id="@+id/createalarm_checkFri"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fri" />
-
-        <CheckBox
-            android:id="@+id/createalarm_checkSat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sat" />
-
-        <CheckBox
-            android:id="@+id/createalarm_checkSun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sun" />
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:autofillHints=""
+            android:backgroundTint="@color/grey"
+            android:hint="Choisir une musique"
+            android:inputType="text"
+            android:minHeight="50dp"
+            android:textAlignment="center"
+            android:textColor="@color/grey"
+            android:textColorHint="@color/hint" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/createalarm_scheduleAlarm"
-        android:layout_width="0dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Schedule Alarm"
-        android:textColor="#616161"
+        android:textColor="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
