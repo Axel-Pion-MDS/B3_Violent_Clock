@@ -1,6 +1,5 @@
 package com.raq.violentclock
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +19,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private var spotifyAppRemote: SpotifyAppRemote? = null
+    private lateinit var spotifyInterface: SpotifyInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                 .baseUrl("https://api.spotify.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-            val spotifyInterface: SpotifyInterface = retrofit.create(SpotifyInterface::class.java)
+            spotifyInterface = retrofit.create(SpotifyInterface::class.java)
             val call = spotifyInterface.findSongByName(search = "Kamado")
 
             call.enqueue(object: Callback<Tracks> {
@@ -75,8 +75,55 @@ class MainActivity : AppCompatActivity() {
         var btnAlarm : FloatingActionButton = findViewById<FloatingActionButton>(R.id.addAlarm)
         btnAlarm.setOnClickListener {
             Log.d("MainActivityDebug", "Click!")
-            val intent : Intent = Intent(this, AddAlarmActivity::class.java)
+//            val intent : Intent = Intent(this, AddAlarmActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    fun playSong() {
+        var device_id: String = ""
+
+        try {
+            var call = spotifyInterface.getDevices()
+            val spotifyDevice = SpotifyDevice()
+            Log.d("SpotifyPlayDebug", spotifyDevice.toString())
+
+            call.enqueue(object: Callback<Devices> {
+                override fun onResponse(call: Call<Devices>, response: Response<Devices>) {
+                    response.body()?.devices?.let { responseListOfDevices ->
+                        Log.d("SpotifyPlayDebug", responseListOfDevices.toString())
+
+                        device_id = spotifyDevice.normalize(responseListOfDevices)
+                        Log.d("SpotifyPlayDebug", device_id)
+
+                        try {
+                            Log.d("SAMEREDEVICEDebug", device_id)
+
+                            val callSong = spotifyInterface.playSong(device_id = device_id, body = SpotifyPostSong("spotify:artist:7i3eGEz3HNFnPOCdc7mqoq"))
+                            callSong.enqueue(object: Callback<String> {
+                                override fun onResponse(callSong: Call<String>, response: Response<String>) {
+                                    Log.d("SpotifyPlayDebug", response.toString())
+                                    response.body()?.let { responseSong ->
+                                        Log.d("SpotifyPlayDebug", responseSong)
+                                    }
+                                }
+                                override fun onFailure(call: Call<String>, throwable: Throwable) {
+                                    Log.e("SpotifyPlayError", throwable.message.toString())
+                                }
+                            })
+                        } catch (e: Exception) {
+                            Log.e("SpotifyPlayError", e.message.toString())
+                        }
+
+                    }
+                }
+                override fun onFailure(call: Call<Devices>, throwable: Throwable) {
+                    Log.e("SpotifyPlayError", throwable.message.toString())
+                }
+            })
+
+        } catch (e: Exception) {
+            Log.e("SpotifyPlayError", e.message.toString())
         }
     }
 }
