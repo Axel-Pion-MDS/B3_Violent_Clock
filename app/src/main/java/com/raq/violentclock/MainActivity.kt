@@ -1,6 +1,5 @@
 package com.raq.violentclock
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -16,14 +15,11 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
-    private var listOfTracks = ArrayList<Items>()
-    private var listOfSongs = ArrayList<SpotifyData>()
-
     private var spotifyAppRemote: SpotifyAppRemote? = null
+    private lateinit var spotifyInterface: SpotifyInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,28 +33,19 @@ class MainActivity : AppCompatActivity() {
                 .baseUrl("https://api.spotify.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-            val spotifyInterface: SpotifyInterface = retrofit.create(SpotifyInterface::class.java)
+            spotifyInterface = retrofit.create(SpotifyInterface::class.java)
             val call = spotifyInterface.findSongByName(search = "Kamado")
 
             call.enqueue(object: Callback<Tracks> {
                 override fun onResponse(call: Call<Tracks>, response: Response<Tracks>) {
-                    Log.d("MainActivityDebug", "In onResponse()")
                     response.body()?.tracks?.let { responseListOfTracks ->
-                        Log.d("MainActivityDebug", responseListOfTracks.toString())
-
-//                        listOfTracks?.clear()
-//                        for (track in responseListOfTracks) {
-//                            listOfTracks.add(track)
-//                        }
-
-//                        listOfSongs?.clear()
-//                        for (song in listOfTracks) {
-//                            listOfSongs.add(song)
-//                        }
+                        val spotifySearch: SpotifySearch = SpotifySearch()
+                        val normalize = spotifySearch.normalize(responseListOfTracks)
+                        Log.d("MainActivityDebug", normalize)
                     }
                 }
                 override fun onFailure(call: Call<Tracks>, throwable: Throwable) {
-                    Log.e("MainActivityDebug", throwable.message.toString())
+                    Log.e("MainActivityError", throwable.message.toString())
                 }
             })
         } catch (e: Exception) {
@@ -88,8 +75,55 @@ class MainActivity : AppCompatActivity() {
         var btnAlarm : FloatingActionButton = findViewById<FloatingActionButton>(R.id.addAlarm)
         btnAlarm.setOnClickListener {
             Log.d("MainActivityDebug", "Click!")
-            val intent : Intent = Intent(this, AddAlarmActivity::class.java)
+//            val intent : Intent = Intent(this, AddAlarmActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    fun playSong() {
+        var device_id: String = ""
+
+        try {
+            var call = spotifyInterface.getDevices()
+            val spotifyDevice = SpotifyDevice()
+            Log.d("SpotifyPlayDebug", spotifyDevice.toString())
+
+            call.enqueue(object: Callback<Devices> {
+                override fun onResponse(call: Call<Devices>, response: Response<Devices>) {
+                    response.body()?.devices?.let { responseListOfDevices ->
+                        Log.d("SpotifyPlayDebug", responseListOfDevices.toString())
+
+                        device_id = spotifyDevice.normalize(responseListOfDevices)
+                        Log.d("SpotifyPlayDebug", device_id)
+
+                        try {
+                            Log.d("SAMEREDEVICEDebug", device_id)
+
+                            val callSong = spotifyInterface.playSong(device_id = device_id, body = SpotifyPostSong("spotify:artist:7i3eGEz3HNFnPOCdc7mqoq"))
+                            callSong.enqueue(object: Callback<String> {
+                                override fun onResponse(callSong: Call<String>, response: Response<String>) {
+                                    Log.d("SpotifyPlayDebug", response.toString())
+                                    response.body()?.let { responseSong ->
+                                        Log.d("SpotifyPlayDebug", responseSong)
+                                    }
+                                }
+                                override fun onFailure(call: Call<String>, throwable: Throwable) {
+                                    Log.e("SpotifyPlayError", throwable.message.toString())
+                                }
+                            })
+                        } catch (e: Exception) {
+                            Log.e("SpotifyPlayError", e.message.toString())
+                        }
+
+                    }
+                }
+                override fun onFailure(call: Call<Devices>, throwable: Throwable) {
+                    Log.e("SpotifyPlayError", throwable.message.toString())
+                }
+            })
+
+        } catch (e: Exception) {
+            Log.e("SpotifyPlayError", e.message.toString())
         }
     }
 }

@@ -28,6 +28,8 @@ data class SpotifyData(
     val artists: ArrayList<Artists>,
     val images: ArrayList<Images>?,
     val name: String,
-    val href: String
+    val href: String,
+    val uri: String,
+    val id: String
 )
 
