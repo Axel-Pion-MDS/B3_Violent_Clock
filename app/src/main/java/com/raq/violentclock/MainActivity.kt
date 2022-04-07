@@ -16,13 +16,9 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
-    private var listOfTracks = ArrayList<Items>()
-    private var listOfSongs = ArrayList<SpotifyData>()
-
     private var spotifyAppRemote: SpotifyAppRemote? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,23 +38,14 @@ class MainActivity : AppCompatActivity() {
 
             call.enqueue(object: Callback<Tracks> {
                 override fun onResponse(call: Call<Tracks>, response: Response<Tracks>) {
-                    Log.d("MainActivityDebug", "In onResponse()")
                     response.body()?.tracks?.let { responseListOfTracks ->
-                        Log.d("MainActivityDebug", responseListOfTracks.toString())
-
-//                        listOfTracks?.clear()
-//                        for (track in responseListOfTracks) {
-//                            listOfTracks.add(track)
-//                        }
-
-//                        listOfSongs?.clear()
-//                        for (song in listOfTracks) {
-//                            listOfSongs.add(song)
-//                        }
+                        val spotifySearch: SpotifySearch = SpotifySearch()
+                        val normalize = spotifySearch.normalize(responseListOfTracks)
+                        Log.d("MainActivityDebug", normalize)
                     }
                 }
                 override fun onFailure(call: Call<Tracks>, throwable: Throwable) {
-                    Log.e("MainActivityDebug", throwable.message.toString())
+                    Log.e("MainActivityError", throwable.message.toString())
                 }
             })
         } catch (e: Exception) {
