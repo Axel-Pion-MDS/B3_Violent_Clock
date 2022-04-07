@@ -1,9 +1,15 @@
 package com.raq.violentclock
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.raq.violentclock.`interface`.SpotifyInterface
 import com.raq.violentclock.data.*
 import com.raq.violentclock.service.AlarmService
@@ -14,10 +20,15 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.reflect.Type
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
+    private var listOfTracks = ArrayList<Items>()
+    private var listOfSongs = ArrayList<SpotifyData>()
+    private var userAlarms : ArrayList<AlarmData> = ArrayList()
+
     private var spotifyAppRemote: SpotifyAppRemote? = null
     private lateinit var spotifyInterface: SpotifyInterface
 
@@ -51,17 +62,28 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("MainActivityError", e.message.toString())
         }
-        val onDays = listOf(Days.MONDAY)
-        var alarm0 : AlarmData = AlarmData(name = "Réveil 0", hour = Date(), days =  onDays, musique = "test")
-        var alarm1 : AlarmData = alarm0.copy(name = "Réveil 1")
-        var alarm2 : AlarmData = alarm1.copy(name = "Réveil 2")
-        val listOfAlarms = listOf<AlarmData>(alarm0, alarm1, alarm2)
-        AlarmService(this, listOfAlarms)
+        val alarm : ArrayList<AlarmData>? = intent.getParcelableArrayListExtra("newAlarm")
+        if (!alarm.isNullOrEmpty()) {
+            Log.d("TEST", alarm.toString())
+            userAlarms.addAll(alarm)
+        }
+//        val gson = Gson()
+//        val json = intent.getStringExtra("newAlarm")
+//
+//        if (!json.isNullOrEmpty()) {
+//            val type: Type = object : TypeToken<AlarmData?>() {}.type
+//            userAlarms.add(gson.fromJson<AlarmData>(json, type))
+//            saveData()
+//        }
         registerGlobalEvent()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onStart() {
         super.onStart()
+        //userAlarms.add(AlarmData("Reveil 1", LocalTime.of(12, 10), days = listOf(Days.FRIDAY), musique = "salut"))
+        //userAlarms.add(AlarmData("Reveil 2", LocalTime.of(10, 2), days = listOf(Days.FRIDAY), musique = "salut"))
+        AlarmService(this, userAlarms)
     }
 
     override fun onStop() {
@@ -71,13 +93,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun registerGlobalEvent () {
+    private fun registerGlobalEvent () {
         var btnAlarm : FloatingActionButton = findViewById<FloatingActionButton>(R.id.addAlarm)
         btnAlarm.setOnClickListener {
-            Log.d("MainActivityDebug", "Click!")
-//            val intent : Intent = Intent(this, AddAlarmActivity::class.java)
+            val intent : Intent = Intent(this, AddAlarmActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun loadData() {
+        val sharedPreferences = getSharedPreferences("sharedPrefs", AppCompatActivity.MODE_PRIVATE)
+
+        val gson = Gson()
+        val json = sharedPreferences.getString("alarms", null)
+
+        val type: Type = object : TypeToken<ArrayList<AlarmData?>?>() {}.type
+        userAlarms = gson.fromJson<Any>(json, type) as ArrayList<AlarmData>
+        if (userAlarms[0] == null) {
+            userAlarms = ArrayList()
+        }
+    }
+
+    private fun saveData() {
+        val sharedPreferences = getSharedPreferences("sharedPrefs", AppCompatActivity.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        val gson = Gson()
+        val json = gson.toJson(userAlarms)
+
+        editor.putString("alarms", json)
+
+        editor.apply()
     }
 
     fun playSong() {

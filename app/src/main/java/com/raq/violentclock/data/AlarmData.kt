@@ -1,5 +1,8 @@
 package com.raq.violentclock.data
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import java.time.LocalTime
 import java.util.*
 
 enum class Days(name: String) {
@@ -12,12 +15,13 @@ enum class Days(name: String) {
     SUNDAY("Dimanche")
 }
 
+@Parcelize
 data class AlarmData (
     var name: String = "Alarme",
-    var hour: Date,
+    var hour: LocalTime,
     var days: List<Days>,
-    var reccurence: List<Days>? = null,
+    var reccurence: Boolean = false,
     var musique: String,
     var isActivated: Boolean = true,
     var onRepeat: Boolean = false
-)
+) : Parcelable

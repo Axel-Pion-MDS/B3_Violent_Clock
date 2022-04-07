@@ -22,8 +22,23 @@
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="24dp"
         android:clickable="true"
+        android:contentDescription="Ajouter une alarme"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="28dp"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:srcCompat="@android:drawable/ic_menu_add"
+        tools:ignore="ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/nothingYet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aucune alarme"
+        android:textColor="@color/grey"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/alarmsList" />
 </androidx.constraintlayout.widget.ConstraintLayout>
