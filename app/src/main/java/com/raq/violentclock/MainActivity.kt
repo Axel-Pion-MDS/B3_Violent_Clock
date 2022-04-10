@@ -1,10 +1,20 @@
 package com.raq.violentclock
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.content.Intent
+import android.os.Build
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.RequiresApi
+import android.view.View
+import android.widget.TimePicker
+import android.widget.Toast
+import android.widget.ToggleButton
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.DataStore
@@ -14,7 +24,9 @@ import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.createDataStore
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.raq.violentclock.*
 import com.raq.violentclock.`interface`.SpotifyInterface
+import com.raq.violentclock.broadcastreceiver.AlarmBroadcastReceiver
 import com.raq.violentclock.data.*
 import com.raq.violentclock.service.AlarmService
 import com.raq.violentclock.service.SpotifyService
@@ -38,6 +50,10 @@ class MainActivity : AppCompatActivity() {
 
     private var spotifyAppRemote: SpotifyAppRemote? = null
     private lateinit var spotifyInterface: SpotifyInterface
+
+    var alarmTimePicker: TimePicker? = null
+    var pendingIntent: PendingIntent? = null
+    var alarmManager: AlarmManager? = null
 
     private lateinit var dataStore: DataStore<Preferences>
     private val activityContext: Activity = this
@@ -87,6 +103,30 @@ class MainActivity : AppCompatActivity() {
             }
         }
         registerGlobalEvent()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun onToggleClickedAlarm(view: View) {
+        var time: Long
+        if ((view as ToggleButton).isChecked) {
+            Toast.makeText(this@MainActivity, "YES", Toast.LENGTH_SHORT).show()
+            val calendar = Calendar.getInstance()
+            calendar[Calendar.HOUR_OF_DAY] = alarmTimePicker!!.hour
+            calendar[Calendar.MINUTE] = alarmTimePicker!!.minute
+            val intent = Intent(this, AlarmBroadcastReceiver::class.java)
+            pendingIntent = PendingIntent.getBroadcast(this, 0, intent, FLAG_IMMUTABLE)
+            time = calendar.timeInMillis - calendar.timeInMillis % 60000
+            if (System.currentTimeMillis() > time) {
+                time =
+                    if (Calendar.AM_PM == 0) time + 1000 * 60 * 60 * 12 else time + 1000 * 60 * 60 * 24
+            }
+            alarmManager!!.setRepeating(AlarmManager.RTC_WAKEUP, time, 60000, pendingIntent)
+            Log.d("debugAlarm", "Had to ring")
+        } else {
+            alarmManager!!.cancel(pendingIntent)
+            Toast.makeText(this@MainActivity, "NO", Toast.LENGTH_SHORT).show()
+            Log.d("debugAlarm", "not Ring")
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
