@@ -26,7 +26,6 @@ class AlarmAdaptater (private val context: Activity, private val alarms: List<Al
         val alarmName : TextView = rowView.findViewById(R.id.alarmName)
 
         var time = LocalTime.of(alarms[position].hour.hour, alarms[position].hour.minute)
-        Log.d("TEST", alarms[position].hour.toString())
 
         alarmHour.text = "${if (time.hour < 10) "0${time.hour}" else time.hour}:${if (time.minute < 10) "0${time.minute}" else time.minute}"
         alarmName.text = alarms[position].name

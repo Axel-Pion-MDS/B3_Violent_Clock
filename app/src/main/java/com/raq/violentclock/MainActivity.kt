@@ -3,25 +3,31 @@ package com.raq.violentclock
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.datastore.DataStore
+import androidx.datastore.preferences.Preferences
+import androidx.datastore.preferences.preferencesKey
+import androidx.datastore.preferences.edit
+import androidx.datastore.preferences.createDataStore
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.raq.violentclock.`interface`.SpotifyInterface
 import com.raq.violentclock.data.*
 import com.raq.violentclock.service.AlarmService
 import com.raq.violentclock.service.SpotifyService
 import com.spotify.android.appremote.api.SpotifyAppRemote
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.reflect.Type
 import java.util.*
+import kotlin.collections.ArrayList
+import com.google.gson.Gson
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,9 +38,13 @@ class MainActivity : AppCompatActivity() {
     private var spotifyAppRemote: SpotifyAppRemote? = null
     private lateinit var spotifyInterface: SpotifyInterface
 
+    private lateinit var dataStore: DataStore<Preferences>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        dataStore = createDataStore(name = "alarms")
+
         SpotifyService.connect(this) {
 //            val intent = Intent(this, this::class.java)
 //            startActivity(intent)
@@ -62,27 +72,27 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("MainActivityError", e.message.toString())
         }
-        val alarm : ArrayList<AlarmData>? = intent.getParcelableArrayListExtra("newAlarm")
+        val alarm : List<AlarmData>? = intent.getParcelableArrayListExtra("newAlarm")
         if (!alarm.isNullOrEmpty()) {
-            Log.d("TEST", alarm.toString())
-            userAlarms.addAll(alarm)
+            lifecycleScope.launch {
+                userAlarms.addAll(alarm)
+                save("alarms", userAlarms)
+            }
         }
-//        val gson = Gson()
-//        val json = intent.getStringExtra("newAlarm")
-//
-//        if (!json.isNullOrEmpty()) {
-//            val type: Type = object : TypeToken<AlarmData?>() {}.type
-//            userAlarms.add(gson.fromJson<AlarmData>(json, type))
-//            saveData()
-//        }
+        setContentView(R.layout.activity_main)
         registerGlobalEvent()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStart() {
         super.onStart()
-        //userAlarms.add(AlarmData("Reveil 1", LocalTime.of(12, 10), days = listOf(Days.FRIDAY), musique = "salut"))
-        //userAlarms.add(AlarmData("Reveil 2", LocalTime.of(10, 2), days = listOf(Days.FRIDAY), musique = "salut"))
+        lifecycleScope.launch {
+            val storageData = read("alarms")
+            if (storageData != null) {
+                userAlarms.addAll(storageData)
+                Log.d("TEST", "BEFORE ADD ${storageData.toString()}")
+            }
+        }
         AlarmService(this, userAlarms)
     }
 
@@ -95,35 +105,29 @@ class MainActivity : AppCompatActivity() {
 
     private fun registerGlobalEvent () {
         var btnAlarm : FloatingActionButton = findViewById<FloatingActionButton>(R.id.addAlarm)
+        var btnPlay : FloatingActionButton = findViewById<FloatingActionButton>(R.id.startMusic)
         btnAlarm.setOnClickListener {
             val intent : Intent = Intent(this, AddAlarmActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    private fun loadData() {
-        val sharedPreferences = getSharedPreferences("sharedPrefs", AppCompatActivity.MODE_PRIVATE)
-
-        val gson = Gson()
-        val json = sharedPreferences.getString("alarms", null)
-
-        val type: Type = object : TypeToken<ArrayList<AlarmData?>?>() {}.type
-        userAlarms = gson.fromJson<Any>(json, type) as ArrayList<AlarmData>
-        if (userAlarms[0] == null) {
-            userAlarms = ArrayList()
+        btnPlay.setOnClickListener {
+            playSong()
         }
     }
 
-    private fun saveData() {
-        val sharedPreferences = getSharedPreferences("sharedPrefs", AppCompatActivity.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
+    private suspend fun read (key: String): Array<AlarmData>? {
+        val dataStoreKey = preferencesKey<String>(key)
+        var preferences = dataStore.data.first()
+        Log.d("TEST", preferences[dataStoreKey].toString())
+        return Gson().fromJson(preferences[dataStoreKey], Array<AlarmData>::class.java)
+    }
 
-        val gson = Gson()
-        val json = gson.toJson(userAlarms)
-
-        editor.putString("alarms", json)
-
-        editor.apply()
+    private suspend fun save (key: String, value: ArrayList<AlarmData>) {
+        val arrayToJson = Gson().toJson(value)
+        val dataStoreKey = preferencesKey<String>(key)
+        dataStore.edit { alarms ->
+            alarms[dataStoreKey] = arrayToJson
+        }
     }
 
     fun playSong() {
@@ -143,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                         Log.d("SpotifyPlayDebug", device_id)
 
                         try {
-                            Log.d("SAMEREDEVICEDebug", device_id)
+                            Log.d("SpotifyPlayDebug", device_id)
 
                             val callSong = spotifyInterface.playSong(device_id = device_id, body = SpotifyPostSong("spotify:artist:7i3eGEz3HNFnPOCdc7mqoq"))
                             callSong.enqueue(object: Callback<String> {
