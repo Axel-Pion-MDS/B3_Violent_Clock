@@ -22,9 +22,11 @@ class AlarmAdaptater (private val context: Activity, private val alarms: List<Al
         val alarmHour : TextView = rowView.findViewById(R.id.musicName)
         val alarmName : TextView = rowView.findViewById(R.id.musicArtist)
 
-        var time = LocalTime.of(alarms[position].hour.hour, alarms[position].hour.minute)
+        val time : List<String> = alarms[position].hour.split(":")
+        val hour: Int = time[0].toInt()
+        val min: Int = time[1].toInt()
 
-        alarmHour.text = "${if (time.hour < 10) "0${time.hour}" else time.hour}:${if (time.minute < 10) "0${time.minute}" else time.minute}"
+        alarmHour.text = "${if (hour < 10) "0${hour}" else hour}:${if (min < 10) "0${min}" else min}"
         alarmName.text = alarms[position].name
 
         return rowView

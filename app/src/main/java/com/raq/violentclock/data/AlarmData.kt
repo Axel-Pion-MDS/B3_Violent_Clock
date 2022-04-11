@@ -18,7 +18,7 @@ enum class Days(name: String) {
 @Parcelize
 data class AlarmData (
     var name: String = "Alarme",
-    var hour: LocalTime,
+    var hour: String,
     var days: List<Days>,
     var reccurence: Boolean = false,
     var musique: String,
