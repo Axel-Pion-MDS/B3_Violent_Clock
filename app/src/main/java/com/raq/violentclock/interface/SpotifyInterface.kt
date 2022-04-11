@@ -6,7 +6,7 @@ import com.raq.violentclock.data.Tracks
 import retrofit2.Call
 import retrofit2.http.*
 
-private const val TOKEN = "Bearer BQAm0Uxv7nshZPK873cFvxCR2Z_yu01N_VDdYbtO_9U626WKFue64lIHoW_zLCkTlg2v8z7b7OMvjgVCIWV7KZA7P59I4gUesteeffQdVKLyoL7F0_oJbJIjk3De4Kbi0bxBuv0crQbKdKmeQsWHbqMi"
+private const val TOKEN = "Bearer BQDEXPlx9UCLtTF_NfrCRg_eNGyuiKCZqTkbbXG6zab9CA-7NFuc1rILmoeoOqQ0kzM2NrkHWUglyP23pOWiwBFibWlslGoYBzUEghCoepC0LNmYyNrKTqbZcAdGkq0ZTer-Lxkvt1ZjEwlPQgk"
 private const val SEARCH_TYPE = "track"
 
 interface SpotifyInterface {

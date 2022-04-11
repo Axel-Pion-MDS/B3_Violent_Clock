@@ -11,7 +11,7 @@ enum class PlayingState {
 }
 
 object SpotifyService {
-    private const val CLIENT_ID = "14471ab9b43741e8b6eefea6c0947938"
+    private const val CLIENT_ID = "090588b1012748c98297b88c16cce358"
     private const val  REDIRECT_URI = "com.raq.violentclock://callback"
 
     private var spotifyAppRemote: SpotifyAppRemote? = null
