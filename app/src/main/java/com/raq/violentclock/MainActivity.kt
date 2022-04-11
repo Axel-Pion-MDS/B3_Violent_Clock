@@ -1,5 +1,6 @@
 package com.raq.violentclock
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -39,9 +40,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var spotifyInterface: SpotifyInterface
 
     private lateinit var dataStore: DataStore<Preferences>
+    private val activityContext: Activity = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         dataStore = createDataStore(name = "alarms")
 
@@ -74,12 +77,15 @@ class MainActivity : AppCompatActivity() {
         }
         val alarm : List<AlarmData>? = intent.getParcelableArrayListExtra("newAlarm")
         if (!alarm.isNullOrEmpty()) {
-            lifecycleScope.launch {
-                userAlarms.addAll(alarm)
-                save("alarms", userAlarms)
+            var readStorage = lifecycleScope.launch {
+                val storageData = read("alarms")
+                if (storageData != null) {
+                    userAlarms = storageData.toCollection(ArrayList())
+                }
+                userAlarms.add(alarm[0])
+                AlarmService(activityContext, userAlarms)
             }
         }
-        setContentView(R.layout.activity_main)
         registerGlobalEvent()
     }
 
@@ -89,17 +95,19 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val storageData = read("alarms")
             if (storageData != null) {
-                userAlarms.addAll(storageData)
-                Log.d("TEST", "BEFORE ADD ${storageData.toString()}")
+                userAlarms = storageData.toCollection(ArrayList())
             }
+            AlarmService(activityContext, userAlarms)
         }
-        AlarmService(this, userAlarms)
     }
 
     override fun onStop() {
         super.onStop()
         spotifyAppRemote?.let {
             SpotifyAppRemote.disconnect(it)
+        }
+        lifecycleScope.launch {
+            save("alarms", userAlarms)
         }
     }
 
@@ -118,8 +126,8 @@ class MainActivity : AppCompatActivity() {
     private suspend fun read (key: String): Array<AlarmData>? {
         val dataStoreKey = preferencesKey<String>(key)
         var preferences = dataStore.data.first()
-        Log.d("TEST", preferences[dataStoreKey].toString())
-        return Gson().fromJson(preferences[dataStoreKey], Array<AlarmData>::class.java)
+        var save = Gson().fromJson(preferences[dataStoreKey], Array<AlarmData>::class.java)
+        return save
     }
 
     private suspend fun save (key: String, value: ArrayList<AlarmData>) {
