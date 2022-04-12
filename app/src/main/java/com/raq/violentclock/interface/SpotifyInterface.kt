@@ -1,12 +1,13 @@
 package com.raq.violentclock.`interface`
 
+import android.widget.EditText
 import com.raq.violentclock.data.Devices
 import com.raq.violentclock.data.SpotifyPostSong
 import com.raq.violentclock.data.Tracks
 import retrofit2.Call
 import retrofit2.http.*
 
-private const val TOKEN = "Bearer BQDEXPlx9UCLtTF_NfrCRg_eNGyuiKCZqTkbbXG6zab9CA-7NFuc1rILmoeoOqQ0kzM2NrkHWUglyP23pOWiwBFibWlslGoYBzUEghCoepC0LNmYyNrKTqbZcAdGkq0ZTer-Lxkvt1ZjEwlPQgk"
+private const val TOKEN = "Bearer BQCDlOQ9TTgo7Pljd2MI0WhIcDs03hum4kKGAYM8F4sE37ZvStiOOyt3qi0EgPBRvGJMdPkDrv_5KHEMqme7TpANcY_Fu2uLr_CJXOE0QAtQg7e735XbHhEf0Vu-9_VPWaHqjyjlVmzlE1M49F_A2u0rSyud"
 private const val SEARCH_TYPE = "track"
 
 interface SpotifyInterface {
@@ -15,7 +16,7 @@ interface SpotifyInterface {
         @Header("Authorization")
         header: String = TOKEN,
         @Query("q")
-        search: String,
+        search: EditText,
         @Query("type")
         type: String = SEARCH_TYPE
     ): Call<Tracks>

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.DataStore
@@ -55,7 +56,9 @@ class MainActivity : AppCompatActivity() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             spotifyInterface = retrofit.create(SpotifyInterface::class.java)
-            val call = spotifyInterface.findSongByName(search = "Kamado")
+
+            val chosenTitle: EditText = findViewById(R.id.alarmMusic)
+            val call = spotifyInterface.findSongByName(search = chosenTitle)
 
             call.enqueue(object: Callback<Tracks> {
                 override fun onResponse(call: Call<Tracks>, response: Response<Tracks>) {

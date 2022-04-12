@@ -1,6 +1,7 @@
 package com.raq.violentclock
 
 import android.util.Log
+import android.widget.EditText
 import com.raq.violentclock.data.*
 
 class SpotifySearch {
