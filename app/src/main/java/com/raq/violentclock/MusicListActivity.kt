@@ -11,6 +11,7 @@ class MusicListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.musics_list)
     }
 
     override fun onStart() {
