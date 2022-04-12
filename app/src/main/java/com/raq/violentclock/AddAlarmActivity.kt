@@ -64,7 +64,7 @@ class AddAlarmActivity : AppCompatActivity() {
         var isRepeating : CheckBox = findViewById<CheckBox>(R.id.isRepeating)
 
 
-        var time : LocalTime = LocalTime.of(alarmTime.hour, alarmTime.minute)
+        var time : String = "${alarmTime.hour}:${alarmTime.minute}"
 
         var newAlarm = AlarmData(hour = time, days = listOf(), reccurence = isRepeating.isChecked, musique = alarmMusic.text.toString())
         if (alarmName.text.toString() != "") {
