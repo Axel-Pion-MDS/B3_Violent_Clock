@@ -3,23 +3,13 @@ package com.raq.violentclock
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
 import android.widget.*
 import androidx.annotation.RequiresApi
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import androidx.appcompat.app.AppCompatActivity
 import com.raq.violentclock.data.AlarmData
-import com.raq.violentclock.service.AlarmService
-import java.lang.reflect.Type
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.Temporal
-import java.util.*
-import kotlin.collections.ArrayList
 
 class AddAlarmActivity : AppCompatActivity() {
 
@@ -37,6 +27,11 @@ class AddAlarmActivity : AppCompatActivity() {
         picker.minute = date.format(formatter).toInt()
         picker.setIs24HourView(true)
 
+        val music : String? = intent.getStringExtra("addSongName")
+        if (!music.isNullOrEmpty()) {
+            var songInput : TextView = findViewById<TextView>(R.id.userMusic)
+            songInput.text = music
+        }
         registerGlobalEvent()
     }
 
@@ -44,14 +39,19 @@ class AddAlarmActivity : AppCompatActivity() {
     private fun registerGlobalEvent () {
         var goback : Button = findViewById<Button>(R.id.goBack)
         var addAlarm : Button = findViewById<Button>(R.id.addAlarmFromNewAlarm)
+        var addSong : Button = findViewById<Button>(R.id.alarmMusicBtn)
         goback.setOnClickListener {
             val intent : Intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
         addAlarm.setOnClickListener {
             val newAlarm : AlarmData = addAlarm()
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.putParcelableArrayListExtra("newAlarm", arrayListOf(newAlarm))
+            startActivity(intent)
+        }
+        addSong.setOnClickListener {
+            val intent : Intent = Intent(this, MusicListActivity::class.java)
             startActivity(intent)
         }
     }
@@ -59,7 +59,7 @@ class AddAlarmActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun addAlarm() : AlarmData {
         var alarmName : EditText = findViewById<EditText>(R.id.alarmNameInput)
-        var alarmMusic : EditText = findViewById<EditText>(R.id.alarmMusic)
+        var alarmMusic : TextView = findViewById<TextView>(R.id.userMusic)
         var alarmTime : TimePicker = findViewById<TimePicker>(R.id.timePicker)
         var isRepeating : CheckBox = findViewById<CheckBox>(R.id.isRepeating)
 
