@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import com.raq.violentclock.R
 import com.raq.violentclock.data.SpotifyData
 import com.squareup.picasso.Picasso
-import java.time.LocalTime
 
 class MusicAdaptater (private val context: Activity, private val musics: List<SpotifyData>, private val listOfMusicsName: List<String>)
     : ArrayAdapter<String>(context, R.layout.listview_item_music, listOfMusicsName) {
@@ -25,7 +24,11 @@ class MusicAdaptater (private val context: Activity, private val musics: List<Sp
         val musicArtist : TextView = rowView.findViewById(R.id.musicArtist)
         val musicCover : ImageView = rowView.findViewById(R.id.musicCover)
 
-        Picasso.get().load("https://i.imgur.com/DvpvklR.png").into(musicCover);
+        if (musics[position].images != null) {
+            Picasso.get().load(musics[position].images?.get(0)?.url).into(musicCover);
+        } else {
+            Picasso.get().load("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/No_Cross.svg/1200px-No_Cross.svg.png").into(musicCover);
+        }
         musicName.text = musics[position].name
         musicArtist.text = musics[position].artists?.get(0)?.name
         Picasso.get().load(musics[position].images?.get(0)?.url).into(musicCover)
