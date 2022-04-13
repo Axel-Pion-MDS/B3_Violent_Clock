@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.DataStore
@@ -17,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.raq.violentclock.`interface`.SpotifyInterface
 import com.raq.violentclock.data.*
-import com.raq.violentclock.service.AlarmService
 import com.raq.violentclock.service.SpotifyService
 import com.spotify.android.appremote.api.SpotifyAppRemote
 import kotlinx.coroutines.flow.first
@@ -30,6 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import kotlin.collections.ArrayList
 import com.google.gson.Gson
+import com.raq.violentclock.service.AlarmService
 
 
 class MainActivity : AppCompatActivity() {
@@ -59,9 +58,7 @@ class MainActivity : AppCompatActivity() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             spotifyInterface = retrofit.create(SpotifyInterface::class.java)
-
-            val chosenTitle: EditText = findViewById(R.id.alarmMusic)
-            val call = spotifyInterface.findSongByName(search = chosenTitle)
+            val call = spotifyInterface.findSongByName(search = "Kamado")
 
             call.enqueue(object: Callback<Tracks> {
                 override fun onResponse(call: Call<Tracks>, response: Response<Tracks>) {
@@ -100,7 +97,7 @@ class MainActivity : AppCompatActivity() {
             if (storageData != null) {
                 userAlarms = storageData.toCollection(ArrayList())
             }
-            AlarmService(activityContext, userAlarms)
+           AlarmService(activityContext, userAlarms)
         }
     }
 

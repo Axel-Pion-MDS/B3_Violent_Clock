@@ -44,6 +44,7 @@ class AddAlarmActivity : AppCompatActivity() {
     private fun registerGlobalEvent () {
         var goback : Button = findViewById<Button>(R.id.goBack)
         var addAlarm : Button = findViewById<Button>(R.id.addAlarmFromNewAlarm)
+        var musicSearch: EditText = findViewById<EditText>(R.id.alarmMusic)
         goback.setOnClickListener {
             val intent : Intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -54,6 +55,11 @@ class AddAlarmActivity : AppCompatActivity() {
             intent.putParcelableArrayListExtra("newAlarm", arrayListOf(newAlarm))
             startActivity(intent)
         }
+        musicSearch.setOnClickListener {
+            val intent = Intent(this, MusicListActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

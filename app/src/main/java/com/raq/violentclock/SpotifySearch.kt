@@ -3,6 +3,7 @@ package com.raq.violentclock
 import android.util.Log
 import android.widget.EditText
 import com.raq.violentclock.data.*
+import com.raq.violentclock.service.MusicService
 
 class SpotifySearch {
     private var dataList = ArrayList<SpotifyData>()
