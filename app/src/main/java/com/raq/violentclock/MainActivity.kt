@@ -9,13 +9,16 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.DataStore
 import androidx.datastore.preferences.Preferences
-import androidx.datastore.preferences.preferencesKey
-import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.createDataStore
+import androidx.datastore.preferences.edit
+import androidx.datastore.preferences.preferencesKey
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.Gson
+import com.raq.violentclock.*
 import com.raq.violentclock.`interface`.SpotifyInterface
 import com.raq.violentclock.data.*
+import com.raq.violentclock.service.AlarmService
 import com.raq.violentclock.service.SpotifyService
 import com.spotify.android.appremote.api.SpotifyAppRemote
 import kotlinx.coroutines.flow.first
@@ -25,13 +28,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.ref.WeakReference
 import java.util.*
-import kotlin.collections.ArrayList
-import com.google.gson.Gson
-import com.raq.violentclock.service.AlarmService
 
 
 class MainActivity : AppCompatActivity() {
+    var weakActivity: WeakReference<MainActivity>? = null
+
     private var listOfTracks = ArrayList<Items>()
     private var listOfSongs = ArrayList<SpotifyData>()
     private var userAlarms : ArrayList<AlarmData> = ArrayList()
@@ -42,8 +45,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dataStore: DataStore<Preferences>
     private val activityContext: Activity = this
 
+    fun getmInstanceActivity(): MainActivity? {
+        return weakActivity?.get()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        weakActivity = WeakReference(this@MainActivity)
         setContentView(R.layout.activity_main)
 
         dataStore = createDataStore(name = "alarms")
@@ -118,9 +126,9 @@ class MainActivity : AppCompatActivity() {
             val intent : Intent = Intent(this, AddAlarmActivity::class.java)
             startActivity(intent)
         }
-        btnPlay.setOnClickListener {
-            playSong()
-        }
+//        btnPlay.setOnClickListener {
+//            playSong()
+//        }
     }
 
     private suspend fun read (key: String): Array<AlarmData>? {
@@ -138,10 +146,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun playSong() {
+    fun playSong(song: String) {
         var device_id: String = ""
 
         try {
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://api.spotify.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            spotifyInterface = retrofit.create(SpotifyInterface::class.java)
             var call = spotifyInterface.getDevices()
             val spotifyDevice = SpotifyDevice()
             Log.d("SpotifyPlayDebug", spotifyDevice.toString())
@@ -157,7 +170,7 @@ class MainActivity : AppCompatActivity() {
                         try {
                             Log.d("SpotifyPlayDebug", device_id)
 
-                            val callSong = spotifyInterface.playSong(device_id = device_id, body = SpotifyPostSong("spotify:artist:7i3eGEz3HNFnPOCdc7mqoq"))
+                            val callSong = spotifyInterface.playSong(device_id = device_id, body = SpotifyPostSong(context_uri = song))
                             callSong.enqueue(object: Callback<String> {
                                 override fun onResponse(callSong: Call<String>, response: Response<String>) {
                                     Log.d("SpotifyPlayDebug", response.toString())

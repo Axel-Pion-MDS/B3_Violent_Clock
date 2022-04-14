@@ -6,7 +6,7 @@ import com.raq.violentclock.data.Tracks
 import retrofit2.Call
 import retrofit2.http.*
 
-private const val TOKEN = "Bearer BQA83-O7UHgGAI7ADkG9FEMfOnetX6wIyu-xPylfOIjklpDhrRUeXMYW8V5EyYwfqPJJ5LcddMhJe5ZoSj10l6LF5ZBuCtcYEAT8NDI1Y1iBruL5M3gjh8t7XvhLo9x2OgqRwSSThqCg9VaPhMgvRv442efcHsvOZT0"
+private const val TOKEN = "Bearer BQByUr8dikSSEemZXsk7ZC3Wfca4vyUDlIHPncSFGG-Ko4lmlMWjERNElmejnTdzevvf5LOnQHzkEp6uueD6TcTRjstZgKaR9EmlQ1XpojDt_vYlCGJCCZ3NTIhYZNKHKl7eDpmgV1i4ROXzsqhT0B14SUDEL4j-i2U"
 private const val SEARCH_TYPE = "track"
 private const val RESULTS_LIMIT = 20
 
@@ -35,8 +35,8 @@ interface SpotifyInterface {
         header: String = TOKEN,
         @Query("device_id")
         device_id: String,
-        @Body
-        body: SpotifyPostSong = SpotifyPostSong(context_uri = "spotify:artist:7i3eGEz3HNFnPOCdc7mqoq")
+        @Body()
+        body: SpotifyPostSong
     ): Call<String>
 
 }

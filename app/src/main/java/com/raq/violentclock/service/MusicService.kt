@@ -8,9 +8,19 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
 import androidx.core.view.get
+import com.raq.violentclock.MainActivity
 import com.raq.violentclock.R
+import com.raq.violentclock.SpotifySearch
+import com.raq.violentclock.`interface`.SpotifyInterface
 import com.raq.violentclock.adaptater.MusicAdaptater
 import com.raq.violentclock.data.SpotifyData
+import com.raq.violentclock.data.SpotifyPostSong
+import com.raq.violentclock.data.Tracks
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MusicService (activity : Activity, musicList : List<SpotifyData>){
     private var activity = activity
@@ -33,10 +43,12 @@ class MusicService (activity : Activity, musicList : List<SpotifyData>){
             listView.isClickable = true
 
             listView.setOnItemClickListener { adapterView, view, position, id ->
-                Log.d("MusicServiceDebug", adapterView.toString())
-                Log.d("MusicServiceDebug", view.toString())
-                Log.d("MusicServiceDebug", position.toString())
-                Log.d("MusicServiceDebug", id.toString())
+
+                var song: Any = view.findViewById<TextView>(R.id.musicId).text
+                Log.d("MusicServiceDebug", song.toString())
+
+                MainActivity().playSong(song.toString())
+
                 // TODO @Axel
                 // If user click on a song play it
                 // On click talk with MusicListActivity and edit userSong var string with code you want for playing the song
