@@ -6,16 +6,12 @@ import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Intent
 import android.os.Build
 import android.app.Activity
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
-import android.view.View
 import android.widget.TimePicker
 import android.widget.Toast
 import android.widget.ToggleButton
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.DataStore
 import androidx.datastore.preferences.Preferences
@@ -48,16 +44,18 @@ class MainActivity : AppCompatActivity() {
     private var listOfSongs = ArrayList<SpotifyData>()
     private var userAlarms : ArrayList<AlarmData> = ArrayList()
 
+
     private var spotifyAppRemote: SpotifyAppRemote? = null
     private lateinit var spotifyInterface: SpotifyInterface
 
-    var alarmTimePicker: TimePicker? = null
-    var pendingIntent: PendingIntent? = null
-    var alarmManager: AlarmManager? = null
+    private var alarmTimePicker: TimePicker? = null
+    private var pendingIntent: PendingIntent? = null
+    private var isActive: Boolean = false
 
     private lateinit var dataStore: DataStore<Preferences>
     private val activityContext: Activity = this
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -106,13 +104,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    fun onToggleClickedAlarm(view: View) {
+    fun onToggleClickedAlarm() {
+        var alarmManager: AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         var time: Long
-        if ((view as ToggleButton).isChecked) {
+        if (!isActive) {
             Toast.makeText(this@MainActivity, "YES", Toast.LENGTH_SHORT).show()
             val calendar = Calendar.getInstance()
-            calendar[Calendar.HOUR_OF_DAY] = alarmTimePicker!!.hour
-            calendar[Calendar.MINUTE] = alarmTimePicker!!.minute
+            var clock = findViewById<TimePicker>(R.id.timePicker)
+            calendar[Calendar.HOUR_OF_DAY] = clock.hour
+            calendar[Calendar.MINUTE] = clock.minute
             val intent = Intent(this, AlarmBroadcastReceiver::class.java)
             pendingIntent = PendingIntent.getBroadcast(this, 0, intent, FLAG_IMMUTABLE)
             time = calendar.timeInMillis - calendar.timeInMillis % 60000
@@ -120,12 +120,14 @@ class MainActivity : AppCompatActivity() {
                 time =
                     if (Calendar.AM_PM == 0) time + 1000 * 60 * 60 * 12 else time + 1000 * 60 * 60 * 24
             }
-            alarmManager!!.setRepeating(AlarmManager.RTC_WAKEUP, time, 60000, pendingIntent)
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, 60000, pendingIntent)
+            isActive = true
             Log.d("debugAlarm", "Had to ring")
         } else {
-            alarmManager!!.cancel(pendingIntent)
+            alarmManager.cancel(pendingIntent)
             Toast.makeText(this@MainActivity, "NO", Toast.LENGTH_SHORT).show()
             Log.d("debugAlarm", "not Ring")
+            isActive = false
         }
     }
 
@@ -151,15 +153,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun registerGlobalEvent () {
         var btnAlarm : FloatingActionButton = findViewById<FloatingActionButton>(R.id.addAlarm)
         var btnPlay : FloatingActionButton = findViewById<FloatingActionButton>(R.id.startMusic)
+        var btnOn : ToggleButton = findViewById<ToggleButton>(R.id.toggleButton)
         btnAlarm.setOnClickListener {
             val intent : Intent = Intent(this, AddAlarmActivity::class.java)
             startActivity(intent)
         }
         btnPlay.setOnClickListener {
             playSong()
+        }
+        btnOn.setOnClickListener{
+            onToggleClickedAlarm()
         }
     }
 
