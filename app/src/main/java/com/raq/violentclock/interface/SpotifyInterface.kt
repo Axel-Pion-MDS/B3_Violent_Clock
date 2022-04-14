@@ -6,7 +6,7 @@ import com.raq.violentclock.data.Tracks
 import retrofit2.Call
 import retrofit2.http.*
 
-private const val TOKEN = "Bearer BQBI77wZKM_hxQVESzDdojKrRSjuUAF3j-1aLVH26_EetHZ06qFMboJ3GLUkSGqzblTPQXFgPkwg67uRauBnCkBM4PgwABSMQZUUmn-4gMhA8R_yfpi8j7fCXHYSTlV9bJBUH3IbyJhMdsNAOjNqPsFv9jMsy40Sqwo"
+private const val TOKEN = "Bearer BQA83-O7UHgGAI7ADkG9FEMfOnetX6wIyu-xPylfOIjklpDhrRUeXMYW8V5EyYwfqPJJ5LcddMhJe5ZoSj10l6LF5ZBuCtcYEAT8NDI1Y1iBruL5M3gjh8t7XvhLo9x2OgqRwSSThqCg9VaPhMgvRv442efcHsvOZT0"
 private const val SEARCH_TYPE = "track"
 private const val RESULTS_LIMIT = 20
 

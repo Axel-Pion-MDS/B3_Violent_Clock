@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_black"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,9 +16,7 @@
         android:layout_marginEnd="10dp"
         android:elevation="5dp"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:clickable="true"
-        android:focusable="true">
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:layout_width="wrap_content"

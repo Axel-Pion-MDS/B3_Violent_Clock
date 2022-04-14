@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Intent.getIntent
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
+import androidx.core.view.get
 import com.raq.violentclock.R
 import com.raq.violentclock.adaptater.MusicAdaptater
 import com.raq.violentclock.data.SpotifyData
@@ -29,6 +31,7 @@ class MusicService (activity : Activity, musicList : List<SpotifyData>){
             listView.adapter = myListAdapter
 
             listView.isClickable = true
+
             listView.setOnItemClickListener { adapterView, view, position, id ->
                 Log.d("MusicServiceDebug", adapterView.toString())
                 Log.d("MusicServiceDebug", view.toString())
