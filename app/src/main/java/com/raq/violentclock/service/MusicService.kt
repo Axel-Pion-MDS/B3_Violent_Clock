@@ -2,6 +2,7 @@ package com.raq.violentclock.service
 
 import android.app.Activity
 import android.content.Intent.getIntent
+import android.util.Log
 import android.view.View
 import android.widget.ListView
 import android.widget.TextView
@@ -13,6 +14,7 @@ class MusicService (activity : Activity, musicList : List<SpotifyData>){
     private var activity = activity
 
     init {
+        Log.d("MusicListDebug", musicList.toString())
         val listOfMusisName = mutableListOf<String>()
 
         if (!musicList.isNullOrEmpty()) {
@@ -27,7 +29,11 @@ class MusicService (activity : Activity, musicList : List<SpotifyData>){
             listView.adapter = myListAdapter
 
             listView.isClickable = true
-            listView.setOnItemClickListener() { adapterView, view, position, id ->
+            listView.setOnItemClickListener { adapterView, view, position, id ->
+                Log.d("MusicServiceDebug", adapterView.toString())
+                Log.d("MusicServiceDebug", view.toString())
+                Log.d("MusicServiceDebug", position.toString())
+                Log.d("MusicServiceDebug", id.toString())
                 // TODO @Axel
                 // If user click on a song play it
                 // On click talk with MusicListActivity and edit userSong var string with code you want for playing the song

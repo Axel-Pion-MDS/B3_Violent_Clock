@@ -39,7 +39,7 @@
                 android:backgroundTint="@color/grey"
                 android:contentDescription="Search bar"
                 android:ems="10"
-                android:hint="Search an image"
+                android:hint="Search a song"
                 android:inputType="textPersonName"
                 android:textColor="@color/grey"
                 android:textColorHint="@color/grey"

@@ -18,7 +18,7 @@ class MusicAdaptater (private val context: Activity, private val musics: List<Sp
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
-        val rowView = inflater.inflate(R.layout.listview_item_alarm, null, true)
+        val rowView = inflater.inflate(R.layout.listview_item_music, null, true)
 
         val musicName : TextView = rowView.findViewById(R.id.musicName)
         val musicArtist : TextView = rowView.findViewById(R.id.musicArtist)

@@ -21,11 +21,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MusicListActivity : AppCompatActivity() {
     private var listOfSongs = ArrayList<SpotifyData>()
     private lateinit var spotifyInterface: SpotifyInterface
+    private lateinit var activity: AppCompatActivity
 
     var userSong : String = "spotify:artist:7i3eGEz3HNFnPOCdc7mqoq"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activity = this
         setContentView(R.layout.musics_list)
         registerGlobalEvent()
     }
@@ -42,9 +44,8 @@ class MusicListActivity : AppCompatActivity() {
         var searchBtn : ImageButton = findViewById<ImageButton>(R.id.searchButton)
         var saveBtn : FloatingActionButton = findViewById<FloatingActionButton>(R.id.saveMusic)
         searchBtn.setOnClickListener {
-            var searchText : String = findViewById<EditText>(R.id.searchMusic).toString()
-            listOfSongs = searchSongs(searchText)
-            MusicService(this, listOfSongs)
+            var searchText : String =  findViewById<EditText>(R.id.searchMusic).text.toString()
+            searchSongs(searchText)
         }
         saveBtn.setOnClickListener {
             val intent : Intent = Intent(this, AddAlarmActivity::class.java)
@@ -64,13 +65,16 @@ class MusicListActivity : AppCompatActivity() {
             val call = spotifyInterface.findSongByName(search = searchValue)
             call.enqueue(object: Callback<Tracks> {
                 override fun onResponse(call: Call<Tracks>, response: Response<Tracks>) {
+                    Log.d("MusicListActivity", response.toString())
+
                     response.body()?.tracks?.let { responseListOfTracks ->
-                        Log.d("MusicListActivity", responseListOfTracks.toString())
-                        // TODO @Axel
-                        // Push all array of SpotifyData type in listOfSongs
-                        // If all works well, check front and you have a list of 20 songs
-                        // I hope
+                        listOfSongs.clear()
+                        for (data in responseListOfTracks.items) {
+                            Log.d("MusicListActivity", data.album.toString())
+                            listOfSongs.add(data.album)
+                        }
                     }
+                    MusicService(activity, listOfSongs)
                 }
                 override fun onFailure(call: Call<Tracks>, throwable: Throwable) {
                     Log.e("MusicListActivity", throwable.message.toString())

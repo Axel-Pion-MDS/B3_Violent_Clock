@@ -29,7 +29,8 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                tools:srcCompat="@tools:sample/avatars" />
+                app:srcCompat="@drawable/hex_by_nastya_lehn_dd441g0"
+                tools:srcCompat="@drawable/hex_by_nastya_lehn_dd441g0" />
         </RelativeLayout>
 
         <LinearLayout
