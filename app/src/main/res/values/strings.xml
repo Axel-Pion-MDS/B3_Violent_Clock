@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">ViolentClock</string>
+    <string name="add_alarm_button">Ajouter une alarme</string>
+    <string name="no_alarm_yet">Aucune alarme</string>
+    <string name="default_alarm_time">10:00</string>
+    <string name="default_alarm_name">Alarme name</string>
+    <string name="album_image_desc">Album image</string>
+    <string name="default_music_title">Music title</string>
+    <string name="default_music_artist">Music artist</string>
+    <string name="music_player_status">Status of music player</string>
+    <string name="search_song">Search a song</string>
+    <string name="save_music_choose">Save music choose</string>
+    <string name="search_music_button">Search a music on Spotify</string>
+    <string name="no_music">Aucune musique</string>
+    <string name="alarm_name">Mon réveil</string>
+    <string name="choose_music">Choisir une chanson</string>
+    <string name="no_music_yet">Aucune chanson choisie</string>
+    <string name="back">Retour</string>
+    <string name="add">Ajouter</string>
 </resources>

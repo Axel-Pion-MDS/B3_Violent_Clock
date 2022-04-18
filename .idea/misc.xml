@@ -13,6 +13,8 @@
         <entry key="../violentclock/app/src/main/res/layout/new_alarm.xml" value="0.31883880958128513" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.38207651774088536" />
         <entry key="app/src/main/res/layout/listview_item.xml" value="0.325" />
+        <entry key="app/src/main/res/layout/listview_item_music.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/musics_list.xml" value="0.24094202898550723" />
       </map>
     </option>
   </component>

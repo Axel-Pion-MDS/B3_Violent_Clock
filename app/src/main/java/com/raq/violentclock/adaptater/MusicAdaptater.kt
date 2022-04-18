@@ -18,10 +18,11 @@ class MusicAdaptater (private val context: Activity, private val musics: List<Sp
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
-        val rowView = inflater.inflate(R.layout.listview_item_alarm, null, true)
+        val rowView = inflater.inflate(R.layout.listview_item_music, null, true)
 
         val musicName : TextView = rowView.findViewById(R.id.musicName)
         val musicArtist : TextView = rowView.findViewById(R.id.musicArtist)
+        val musicId : TextView = rowView.findViewById(R.id.musicId)
         val musicCover : ImageView = rowView.findViewById(R.id.musicCover)
 
         if (musics[position].images != null) {
@@ -30,6 +31,7 @@ class MusicAdaptater (private val context: Activity, private val musics: List<Sp
             Picasso.get().load("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/No_Cross.svg/1200px-No_Cross.svg.png").into(musicCover);
         }
         musicName.text = musics[position].name
+        musicId.text = musics[position].uri
         musicArtist.text = musics[position].artists?.get(0)?.name
         Picasso.get().load(musics[position].images?.get(0)?.url).into(musicCover)
 

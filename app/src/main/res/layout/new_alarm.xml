@@ -43,7 +43,7 @@
             android:layout_marginEnd="15dp"
             android:autofillHints=""
             android:backgroundTint="@color/grey"
-            android:hint="Mon réveil"
+            android:hint="@string/alarm_name"
             android:inputType="text"
             android:minHeight="50dp"
             android:textAlignment="center"
@@ -53,18 +53,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/timePicker" />
 
-        <CheckBox
-            android:id="@+id/isRepeating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:checked="false"
-            android:text="Répéter"
-            android:textColor="@color/grey"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/alarmNameInput" />
-
         <Button
             android:id="@+id/alarmMusicBtn"
             android:layout_width="match_parent"
@@ -72,7 +60,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
-            android:text="Choisir une chanson" />
+            android:text="@string/choose_music" />
 
 
         <TextView
@@ -82,7 +70,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
-            android:text="Aucune chanson choisie"
+            android:text="@string/no_music_yet"
             android:textAlignment="center"
             android:textColor="@color/grey" />
 
@@ -116,7 +104,7 @@
                 android:layout_gravity="center"
                 android:width="170dp"
                 android:backgroundTint="@color/grey"
-                android:text="Retour"
+                android:text="@string/back"
                 android:textColor="@color/black"
                 style="?android:attr/buttonBarButtonStyle" />
 
@@ -124,7 +112,7 @@
                 android:id="@+id/addAlarmFromNewAlarm"
                 android:layout_gravity="center"
                 android:width="170dp"
-                android:text="Ajouter"
+                android:text="@string/add"
                 android:textColor="@color/grey" />
         </TableRow>
     </TableLayout>
