@@ -22,7 +22,7 @@
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="24dp"
         android:clickable="true"
-        android:contentDescription="Ajouter une alarme"
+        android:contentDescription="@string/add_alarm_button"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
         android:id="@+id/nothingYet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aucune alarme"
+        android:text="@string/no_alarm_yet"
         android:textColor="@color/grey"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,14 +42,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/alarmsList" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/startMusic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/addAlarm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_media_play" />
 </androidx.constraintlayout.widget.ConstraintLayout>

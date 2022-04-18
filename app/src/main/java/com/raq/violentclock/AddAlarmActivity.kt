@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
 class AddAlarmActivity : AppCompatActivity() {
 
     private var mainActivity : Activity = Activity()
+    private var userBearer : String = "Bearer"
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +33,7 @@ class AddAlarmActivity : AppCompatActivity() {
             var songInput : TextView = findViewById<TextView>(R.id.userMusic)
             songInput.text = music
         }
+        userBearer = intent.getStringExtra("userBearer").toString()
         registerGlobalEvent()
     }
 
@@ -52,6 +54,7 @@ class AddAlarmActivity : AppCompatActivity() {
         }
         addSong.setOnClickListener {
             val intent : Intent = Intent(this, MusicListActivity::class.java)
+            intent.putExtra("userBearer", userBearer)
             startActivity(intent)
         }
     }

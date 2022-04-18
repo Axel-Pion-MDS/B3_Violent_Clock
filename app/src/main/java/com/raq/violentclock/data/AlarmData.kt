@@ -2,8 +2,6 @@ package com.raq.violentclock.data
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.time.LocalTime
-import java.util.*
 
 enum class Days(name: String) {
     MONDAY("Lundi"),

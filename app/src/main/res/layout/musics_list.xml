@@ -11,7 +11,7 @@
         android:id="@+id/nothingYet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aucune musique"
+        android:text="@string/no_music"
         android:textColor="@color/grey"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,11 +23,17 @@
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="0,3"
+        android:stretchColumns="0,2"
         android:layout_marginTop="5dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TableRow android:id="@+id/searchBar">
+        <TableRow
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0,3"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toTopOf="parent">
 
             <EditText
                 android:id="@+id/searchMusic"
@@ -37,15 +43,16 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/grey"
-                android:contentDescription="Search bar"
                 android:ems="10"
-                android:hint="Search a song"
+                android:hint="@string/search_song"
                 android:inputType="textPersonName"
+                android:minHeight="48dp"
                 android:textColor="@color/grey"
                 android:textColorHint="@color/grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="17dp" />
+                tools:layout_editor_absoluteY="17dp"
+                android:autofillHints="Bande organisé" />
 
             <ImageButton
                 android:id="@+id/searchButton"
@@ -53,11 +60,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="@color/main"
-                android:contentDescription="Search a music on Spotify"
+                android:contentDescription="@string/search_music_button"
                 app:srcCompat="@android:drawable/ic_menu_search" />
         </TableRow>
-    </TableLayout>
 
+    </TableLayout>
     <ListView
         android:id="@+id/musicList"
         android:layout_width="match_parent"
@@ -74,9 +81,12 @@
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="24dp"
         android:clickable="true"
+        android:contentDescription="@string/save_music_choose"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_save" />
+        app:srcCompat="@android:drawable/ic_menu_save"
+        tools:ignore="ImageContrastCheck"
+        android:focusable="true" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

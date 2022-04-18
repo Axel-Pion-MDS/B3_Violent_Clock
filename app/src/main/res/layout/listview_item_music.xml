@@ -3,67 +3,77 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/light_black"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:elevation="5dp"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:background="@color/light_black">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/musicCover"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/hex_by_nastya_lehn_dd441g0"
+            tools:srcCompat="@drawable/hex_by_nastya_lehn_dd441g0"
+            android:contentDescription="@string/album_image_desc" />
+
+    </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:elevation="5dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center">
+        <TextView
+            android:id="@+id/musicName"
+            android:layout_width="335dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/default_music_title"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="@color/grey"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/musicCover"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/hex_by_nastya_lehn_dd441g0"
-                tools:srcCompat="@drawable/hex_by_nastya_lehn_dd441g0" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/musicArtist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/default_music_artist"
+            android:textColor="@color/grey"
+            android:textSize="16sp" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/musicId"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/musicName"
-                android:layout_width="335dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="5dp"
-                android:text="Music title"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textColor="@color/grey"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/musicArtist"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginBottom="8dp"
-                android:text="Music artist"
-                android:textColor="@color/grey"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/musicId"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:text="" />
-        </LinearLayout>
+            android:layout_height="0dp"
+            android:text="" />
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/statusImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_media_play"
+            app:tint="@color/grey"
+            android:contentDescription="@string/music_player_status" />
+
+    </RelativeLayout>
 </LinearLayout>

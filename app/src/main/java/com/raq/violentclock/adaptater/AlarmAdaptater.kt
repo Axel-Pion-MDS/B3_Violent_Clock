@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.raq.violentclock.R
 import com.raq.violentclock.data.AlarmData
-import java.time.LocalTime
 
 class AlarmAdaptater (private val context: Activity, private val alarms: List<AlarmData>, private val listOfAlarmsName: List<String>)
     : ArrayAdapter<String>(context, R.layout.listview_item_alarm, listOfAlarmsName) {
